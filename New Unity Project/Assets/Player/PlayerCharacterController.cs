@@ -25,9 +25,11 @@ public class PlayerCharacterController : MonoBehaviour
         //gledaj napred gde trcis
         transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
 
-        //proverava da li fikciona sfera koja je na nogama igraca dodiruje ground
+        //proverava da li fikciona sfera koja je na nogama igraca dodiruje ground  //transform je na samom dnu igraca inace ne bi radilo!!!
+
         isGrounded = Physics.CheckSphere(transform.position, 0.1f, groundLayers, QueryTriggerInteraction.Ignore);
-        
+       
+
         if(isGrounded && velocity.y < 0)
         {
             velocity.y = 0;
@@ -36,6 +38,8 @@ public class PlayerCharacterController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
+
+        Debug.Log(isGrounded);
 
         characterController.Move(new Vector3(horizontalInput* runSpeed, 0, 0) * Time.deltaTime); 
 
