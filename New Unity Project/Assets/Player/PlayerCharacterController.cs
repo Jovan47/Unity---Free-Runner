@@ -6,8 +6,9 @@ public class PlayerCharacterController : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayers;
     [SerializeField] float     runSpeed = 8f;
+    [SerializeField] float     jumpHeight = 2f;
 
-    private float               gravity = -50f;
+    private float               gravity = -40;
     private CharacterController characterController;
     private Vector3             velocity;
     private bool                isGrounded;   
@@ -28,9 +29,9 @@ public class PlayerCharacterController : MonoBehaviour
         //proverava da li fikciona sfera koja je na nogama igraca dodiruje ground  //transform je na samom dnu igraca inace ne bi radilo!!!
 
         isGrounded = Physics.CheckSphere(transform.position, 0.1f, groundLayers, QueryTriggerInteraction.Ignore);
-       
 
-        if(isGrounded && velocity.y < 0)
+
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0;
         }
@@ -39,13 +40,14 @@ public class PlayerCharacterController : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
         }
 
-        Debug.Log(isGrounded);
 
-        characterController.Move(new Vector3(horizontalInput* runSpeed, 0, 0) * Time.deltaTime); 
+        if (isGrounded && Input.GetButtonDown("Jump"))
+        {
+            velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
+        }
 
-        //add gravity
-        velocity.y += gravity * Time.deltaTime;
-
+        //move
+        characterController.Move(new Vector3(horizontalInput * runSpeed, 0, 0) * Time.deltaTime);
         //Vertical Velocity
         characterController.Move(velocity * Time.deltaTime);
     }
