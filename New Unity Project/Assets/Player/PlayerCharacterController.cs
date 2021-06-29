@@ -17,6 +17,8 @@ public class PlayerCharacterController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        Application.targetFrameRate = 70;
+
     }
 
     void Update()
