@@ -23,8 +23,10 @@ public class CameraFollow : MonoBehaviour
         
         if(Mathf.Abs(transform.position.y - target.position.y) > 5)
         {
-            offset.y += target.position.y;
+            offset.y = target.position.y+2f;
         }
+
+
 
     }
 }
