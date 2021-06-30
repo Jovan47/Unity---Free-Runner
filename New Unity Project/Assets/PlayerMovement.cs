@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
+    [SerializeField] private float maxX;
+    [SerializeField] private float maxZ;
+
+
+
+    public LeanTweenType easeType;
     Vector3 nextPlace;
     bool moved = false;
     private Animator animator;
+    private bool isHoping;
     void Start()
     {
         
@@ -20,19 +26,27 @@ public class PlayerMovement : MonoBehaviour
     {
         
 
-        if      (Input.GetKeyDown(KeyCode.UpArrow)   || Input.GetKeyDown("w")) { nextPlace = transform.position + new Vector3(3,0,0);  moved = true; }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a")) { nextPlace = transform.position + new Vector3(0,0,3);  moved = true; }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s")) { nextPlace = transform.position + new Vector3(-3,0,0); moved = true; }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown("d")) { nextPlace = transform.position + new Vector3(0,0,-3); moved = true; }
+        if      (Input.GetKeyDown(KeyCode.UpArrow)   || Input.GetKeyDown("w") && !isHoping) { nextPlace = transform.position + new Vector3(4,0,0);  moved = true; }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,4);  moved = true; }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping) { nextPlace = transform.position + new Vector3(-4,0,0); moved = true; }
+        else if (Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown("d") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,-4); moved = true; }
 
-        if (nextPlace.x<=27 &&nextPlace.x>=0 &&nextPlace.z<=27 &&nextPlace.z>=0 && moved)
+        if (nextPlace.x<= maxX && nextPlace.x>=0 &&nextPlace.z<= maxZ && nextPlace.z>=0 && moved && !isHoping)
         {
+            LeanTween.move(gameObject, nextPlace, 0.28f);
             animator.SetTrigger("hop");
-            transform.position = nextPlace;
+            isHoping = true;
+           // transform.position = nextPlace;
             moved = false;
            
         }
 
         Debug.Log(transform.position);
+    }
+
+
+    public void FinishedHop()
+    {
+        isHoping = false;
     }
 }
