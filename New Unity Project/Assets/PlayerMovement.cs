@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 maxPlace;
-    Vector3 minPlace;
+    
     Vector3 nextPlace;
     bool moved = false;
-   
+    private Animator animator;
     void Start()
     {
-        maxPlace = new Vector3(16, 0, 16);
-        minPlace = new Vector3 (0, 0, 0);
+        
         Vector3 nextPlace = new Vector3(0, 0, 0);
         Application.targetFrameRate = 70;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -28,8 +27,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (nextPlace.x<=36 &&nextPlace.x>=0 &&nextPlace.z<=36 &&nextPlace.z>=0 && moved)
         {
+            animator.SetTrigger("hop");
             transform.position = nextPlace;
             moved = false;
+           
         }
 
         Debug.Log(transform.position);
