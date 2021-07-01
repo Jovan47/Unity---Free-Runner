@@ -10,7 +10,6 @@ public class MapSpawner : MonoBehaviour
     private List<GameObject> listaTile;
     private GameObject       [,]mapa;
     private int              indexListe;
-
     void Start()
     {
         listaTile = new List<GameObject>();
@@ -25,7 +24,7 @@ public class MapSpawner : MonoBehaviour
             {
                 position.z = 4 * j;
                 mapa[i, j] = Instantiate(TerrainPrefab, position, Quaternion.identity);
-                mapa[i, j].gameObject.tag = "tile";
+                mapa[i, j].gameObject.tag = "Tile";
                 GameObject tempObj = mapa[i, j];
                 tempObj.transform.parent = gameObject.transform;
                 listaTile.Add(tempObj);

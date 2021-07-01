@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(nextPlace + 2*currentDiretcion, currentDiretcion * rayReach, Color.red);
         if (Physics.Raycast(nextPlace + 2 * currentDiretcion, currentDiretcion * rayReach, out hit))
         {
-            if (hit.transform.tag == "tile")
+            if (hit.transform.tag == "Tile")
             {
                 Debug.Log("Udarili smo u " + hit.transform.tag + " at position " +hit.transform.position);
             }
