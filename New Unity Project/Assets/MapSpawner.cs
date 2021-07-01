@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class MapSpawner : MonoBehaviour
 {
+    [SerializeField] private float playerJumpDistance = 4;
     public GameObject TerrainPrefab;
-    public Color      druga;
+    public Color      secondColor;
 
     private List<GameObject> listaTile;
     private GameObject       [,]mapa;
     private int              indexListe;
     void Start()
     {
+
         listaTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
         mapa = new GameObject[10, 10];
@@ -31,7 +33,7 @@ public class MapSpawner : MonoBehaviour
                 if (i == j || (i+j)==10-1)
                 {
                     Renderer rend = tempObj.GetComponent<Renderer>();
-                    rend.material.color = druga;
+                    rend.material.color = secondColor;
                     
                 }
                 tempObj.SetActive(false);
