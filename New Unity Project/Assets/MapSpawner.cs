@@ -4,28 +4,26 @@ using UnityEngine;
 
 public class MapSpawner : MonoBehaviour
 {
-
-    [SerializeField] private Vector3 startPosition = new Vector3(0, 0, 0);
     public GameObject TerrainPrefab;
-  
+    public Color      druga;
 
-    private GameObject[,] mapa =new GameObject[10,10];
+    private List<GameObject> listaTile;
+    private GameObject       [,]mapa;
+    private int              indexListe;
 
-    public Color druga;
-    bool prekidac = true;
-    List<GameObject> listaTile = new List<GameObject>();
-    int indexListe = 0;
     void Start()
     {
+        listaTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
-        
-        for(int i=0; i<10; i++)
+        mapa = new GameObject[10, 10];
+        indexListe = 0;
+
+        for (int i=0; i<10; i++)
         {
             position.x=4*i;
             for (int j = 0; j < 10; j++)
             {
                 position.z = 4 * j;
-
                 mapa[i, j] = Instantiate(TerrainPrefab, position, Quaternion.identity);
                 mapa[i, j].gameObject.tag = "tile";
                 GameObject tempObj = mapa[i, j];
@@ -38,24 +36,20 @@ public class MapSpawner : MonoBehaviour
                     
                 }
                 tempObj.SetActive(false);
-
-
-
                 // LeanTween.scale(tempObj, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeInSine);
             }
         }
 
         for(int i=0; i<100; i++)
         {
-            StartCoroutine(tweenING());
-
+            StartCoroutine(TweenIng());
         }
     }
 
-    IEnumerator tweenING()
+    IEnumerator TweenIng()
     {
         yield return new WaitForSeconds(3);
-        if (indexListe == listaTile.Count) { prekidac = false; yield break; }
+        if (indexListe == listaTile.Count) { yield break; }
         GameObject temp = listaTile[indexListe];
         indexListe += 1;
         temp.SetActive(true);
