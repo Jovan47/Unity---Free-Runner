@@ -31,14 +31,13 @@ public class PlayerMovement : MonoBehaviour
     {
         
 
-        if      (Input.GetKeyDown(KeyCode.UpArrow)   || Input.GetKeyDown("w") && !isHoping) { nextPlace = transform.position + new Vector3(4,0,0);  moved = true; }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,4);  moved = true; }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping) { nextPlace = transform.position + new Vector3(-4,0,0); moved = true; }
-        else if (Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown("d") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,-4); moved = true; }
+        if      (Input.GetKeyDown(KeyCode.UpArrow)   || Input.GetKeyDown("w") && !isHoping) { nextPlace = transform.position + new Vector3(4,0,0);  moved = true; currentDiretcion = (nextPlace - transform.position).normalized;}
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,4);  moved = true; currentDiretcion = (nextPlace - transform.position).normalized;}
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping) { nextPlace = transform.position + new Vector3(-4,0,0); moved = true; currentDiretcion = (nextPlace - transform.position).normalized;}
+        else if (Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown("d") && !isHoping) { nextPlace = transform.position + new Vector3(0,0,-4); moved = true; currentDiretcion = (nextPlace - transform.position).normalized;}
 
         if (nextPlace.x<= maxX && nextPlace.x>=0 &&nextPlace.z<= maxZ && nextPlace.z>=0 && moved && !isHoping)
         {
-            currentDiretcion = (nextPlace - transform.position).normalized;
             LeanTween.move(gameObject, nextPlace, 0.28f);
             animator.SetTrigger("hop");
             isHoping = true;
@@ -47,20 +46,20 @@ public class PlayerMovement : MonoBehaviour
            
         }
 
-        var fwd = transform.TransformDirection(Vector3.forward);
-        var Reach   = 4.0f;
+        var Reach = 4.0f;
 
-        Debug.DrawRay(transform.position+ 2*currentDiretcion, currentDiretcion * Reach, Color.red);
+        Debug.DrawRay(nextPlace + 2*currentDiretcion, currentDiretcion * Reach, Color.red);
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + 2 * currentDiretcion, currentDiretcion * Reach, out hit))
+        if (Physics.Raycast(nextPlace + 2 * currentDiretcion, currentDiretcion * Reach, out hit))
         {
             if (hit.transform.tag == "tile")
             {
                 Debug.Log("Udarili smo u " + hit.transform.tag + " at position " +hit.transform.position);
             }
+          
         }
-
-        // Debug.Log(transform.position);
+        else { Debug.Log("Nema dalje"); }
+       
     }
 
 
