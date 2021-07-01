@@ -14,6 +14,11 @@ public class PlayerMovement : MonoBehaviour
     bool moved = false;
     private Animator animator;
     private bool isHoping;
+
+    Vector3 rayOffset = new Vector3(2, 0, 2);
+
+    Vector3 currentDiretcion = new Vector3(0, 0, 0);
+
     void Start()
     {
         
@@ -33,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (nextPlace.x<= maxX && nextPlace.x>=0 &&nextPlace.z<= maxZ && nextPlace.z>=0 && moved && !isHoping)
         {
+            currentDiretcion = (nextPlace - transform.position).normalized;
             LeanTween.move(gameObject, nextPlace, 0.28f);
             animator.SetTrigger("hop");
             isHoping = true;
@@ -41,7 +47,20 @@ public class PlayerMovement : MonoBehaviour
            
         }
 
-        Debug.Log(transform.position);
+        var fwd = transform.TransformDirection(Vector3.forward);
+        var Reach   = 4.0f;
+
+        Debug.DrawRay(transform.position+ 2*currentDiretcion, currentDiretcion * Reach, Color.red);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + 2 * currentDiretcion, currentDiretcion * Reach, out hit))
+        {
+            if (hit.transform.tag == "tile")
+            {
+                Debug.Log("Udarili smo u " + hit.transform.tag + " at position " +hit.transform.position);
+            }
+        }
+
+        // Debug.Log(transform.position);
     }
 
 
