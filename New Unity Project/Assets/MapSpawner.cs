@@ -5,8 +5,6 @@ using UnityEngine;
 public class MapSpawner : MonoBehaviour
 {
 
-
-
     [SerializeField] private Vector3 startPosition = new Vector3(0, 0, 0);
     public GameObject TerrainPrefab;
   
@@ -15,13 +13,10 @@ public class MapSpawner : MonoBehaviour
 
     public Color druga;
     bool prekidac = true;
-
     List<GameObject> listaTile = new List<GameObject>();
     int indexListe = 0;
     void Start()
     {
-
-
         Vector3 position = new Vector3(0, 0, 0);
         
         for(int i=0; i<10; i++)
@@ -50,6 +45,11 @@ public class MapSpawner : MonoBehaviour
             }
         }
 
+        for(int i=0; i<100; i++)
+        {
+            StartCoroutine(tweenING());
+
+        }
     }
 
     IEnumerator tweenING()
@@ -65,10 +65,7 @@ public class MapSpawner : MonoBehaviour
 
     void Update()
     {
-       
-            StartCoroutine(tweenING());
-         
-       
+
 
     }
 }
