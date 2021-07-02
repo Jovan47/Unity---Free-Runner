@@ -326,9 +326,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e3074c0f9282140ae76f270a2b0941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPosition: {x: 0, y: 0, z: 0}
+  terrains: []
+  playerJumpDistance: 4
   TerrainPrefab: {fileID: 803298089991814135, guid: 66eeb1d97ecf90844990a1ab0e60be60, type: 3}
-  druga: {r: 0.9150943, g: 0.3315058, b: 0.3315058, a: 0}
+  secondColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &909042336
 Transform:
   m_ObjectHideFlags: 0
@@ -492,7 +493,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxX: 36
   maxZ: 36
-  easeType: 38
+  offSetPlayerMove: 4
+  rayReach: 4
+  MapSpawner: {fileID: 909042334}
 --- !u!143 &1971792183
 CharacterController:
   m_ObjectHideFlags: 0
