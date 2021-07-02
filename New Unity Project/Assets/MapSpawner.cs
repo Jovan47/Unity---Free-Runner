@@ -119,33 +119,37 @@ public class MapSpawner : MonoBehaviour
 
     void Update()
     {
+        moveTiles();
+
+    }
+
+    public void moveTiles()
+    {
         if (moved)
-        {   
-            if(right)
+        {
+            if (right)
             {
                 MoveTilesRight();
+                right = false;
             }
-             if (left)
+            if (left)
             {
                 MoveTilesLeft();
+                left = false;
             }
-             if (up)
+            if (up)
             {
                 MoveTilesUp();
+                up = false;
             }
             if (down)
             {
                 MoveTilesDown();
                 down = false;
-                Debug.Log("POZAVNA DA IDE DOLE!!");
             }
             moved = false;
-
         }
-
     }
-
-
 
     public void MoveTiles(string s)
     {
@@ -159,8 +163,6 @@ public class MapSpawner : MonoBehaviour
         }
         else if (s == "down")
         {
-           // Debug.Log("POMERI MAPU DOLE");
-
             down = true;
         }
         else if (s == "up")
@@ -179,56 +181,163 @@ public class MapSpawner : MonoBehaviour
             {
                 if (i ==numberOfTiles-1)
                 {
-                    mapa[i, j].transform.position = mapa[0, j].transform.position + new Vector3(-4, 0,0);
-
+                    Vector3 newPosition = new Vector3(0, 0, 0);
+                    //  mapa[i, j].transform.position = mapa[0, j].transform.position + new Vector3(-4, 0,0);
+                    newPosition= mapa[0, j].transform.position + new Vector3(-4, 0, 0);
+                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
                 }
             }
         }
         SwapCoulumnsUP();
-
-
     }
     public void MoveTilesUp()
     {
-
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            for (int j = 0; j < numberOfTiles; j++)
+            {
+                if (i == 0)
+                {
+                    //mapa[i, j].transform.position = mapa[numberOfTiles-1, j].transform.position + new Vector3(4, 0, 0);
+                    Vector3 newPosition = new Vector3(0, 0, 0);
+                    newPosition = mapa[numberOfTiles - 1, j].transform.position + new Vector3(4, 0, 0);
+                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
+                }
+            }
+        }
+        SwapColumnDown();
     }
     public void MoveTilesLeft()
     {
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            for (int j = 0; j < numberOfTiles; j++)
+            {
+                if (j == 0)
+                {
+                    Vector3 newPosition = new Vector3(0, 0, 0);
+                    //mapa[i,j].transform.position = mapa[i,numberOfTiles-1].transform.position + new Vector3(0, 0, 4);
 
+                    newPosition = mapa[i, numberOfTiles - 1].transform.position + new Vector3(0, 0, 4);
+                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
+                }
+                // LeanTween.move(mapa[i, j], mapa[i, j].transform.position + new Vector3(0, 0, 4), 1f).setEase(LeanTweenType.easeInBack);
+            }
+        }
+        SwapRowRight();
     }
     public void MoveTilesRight()
     {
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            for (int j = 0; j < numberOfTiles; j++)
+            {
+                if (j == numberOfTiles-1)
+                {
+                    Vector3 newPosition = new Vector3(0, 0, 0);
+                    newPosition = mapa[i,0].transform.position + new Vector3(0, 0, -4);
+                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
+                }
+            }
+        }
+        SwapRowLeft();
+    }
+
+    public void SwapRowLeft()
+    {
+        GameObject[] arrayTmp = new GameObject[numberOfTiles];
+
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            arrayTmp[i] = mapa[i,numberOfTiles-1];
+        }
+
+        for (int j = numberOfTiles-1; j>0; j--)
+        {
+            for (int i = numberOfTiles-1; i>=0; i--)
+            {
+                mapa[i, j] = mapa[i, j -1];
+            }
+        }
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            mapa[i, 0] = arrayTmp[i];
+        }
 
     }
+
+
+    public void SwapRowRight()
+    {
+        GameObject[] arrayTmp = new GameObject[numberOfTiles];
+
+        for (int i = 0; i<numberOfTiles; i++)
+        {
+            arrayTmp[i] = mapa[i,0];
+        }
+
+        for (int j = 0; j < numberOfTiles - 1; j++)
+        {
+            for (int i = 0; i < numberOfTiles; i++)
+            {
+                mapa[i, j] = mapa[i, j+1];
+            }
+        }
+        for (int i = 0; i < numberOfTiles; i++)
+        {
+            mapa[i, numberOfTiles - 1] = arrayTmp[i];
+        }
+
+    }
+
+    public void SwapColumnDown()
+    {
+        GameObject[] arrayTmp = new GameObject[numberOfTiles];
+
+        for (int i = 0; i < 10; i++)
+        {
+            arrayTmp[i] = mapa[0, i];
+            // Renderer ob = arrayTmp[i].GetComponent<Renderer>();
+           // ob.material.color = Color.red;
+        }
+
+        for (int i = 0; i <numberOfTiles-1; i++)
+        {
+            for (int j =0; j<numberOfTiles; j++)
+            {
+                mapa[i, j] = mapa[i+ 1, j];
+            }
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            mapa[numberOfTiles-1, i] = arrayTmp[i];
+        }
+    }
+
 
     public void SwapCoulumnsUP()
     {
         GameObject[] arrayTmp = new GameObject[numberOfTiles];
-       
-        for(int i=0; i<10; i++)
+
+        for (int i = 0; i < 10; i++)
         {
             arrayTmp[i] = mapa[numberOfTiles - 1, i];
-            Renderer ob= arrayTmp[i].GetComponent<Renderer>();
-            ob.material.color = Color.red;
-
+            //Renderer ob = arrayTmp[i].GetComponent<Renderer>();
+            //ob.material.color = Color.red;
         }
 
-        for(int i=numberOfTiles-1; i>0; i--)
+        for (int i = numberOfTiles - 1; i > 0; i--)
         {
             for (int j = numberOfTiles - 1; j >= 0; j--)
             {
                 mapa[i, j] = mapa[i - 1, j];
-               
             }
         }
-        
-        
-        
-        for(int i=0; i<10; i++)
+        for (int i = 0; i < 10; i++)
         {
             mapa[0, i] = arrayTmp[i];
         }
-
     }
 
 }
+  
