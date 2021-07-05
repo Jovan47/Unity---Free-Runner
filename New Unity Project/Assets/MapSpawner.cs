@@ -4,34 +4,46 @@ using UnityEngine;
 
 public class MapSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> terrains = new List<GameObject> ();
+    [SerializeField] private List<GameObject> terrains = new List<GameObject>();
+    // [SerializeField] private int count;
     [SerializeField] private float playerJumpDistance = 4;
+    [SerializeField] private int numberOfSquares = 10;
+    [SerializeField] private int distanceBetweenSquares;
+    private float maximumPositionX = 36;
+    private float startPositionX = 0;
+    private float maximumPositionZ = 36;
+    private float startPositionZ = 0;
+    private Vector3 nextPosition = new Vector3(0, 0, 0);
     public GameObject TerrainPrefab;
-    public Color      secondColor;
+    public Color secondColor;
 
-    private List<GameObject> listaTile;
-    private GameObject       [,]mapa;
-    private int              indexListe;
 
-    private bool left   = false;
-    private bool right  = false;
-    private bool down   = false;
-    private bool up     = false;
+
+
+    private List<GameObject> listTile;
+    private GameObject[,] mapa;
+    private int indexListe;
+
+    private bool left = false;
+    private bool right = false;
+    private bool down = false;
+    private bool up = false;
     private bool moved = false;
     private int numberOfTiles = 10;
 
     void Start()
     {
 
-        listaTile = new List<GameObject>();
+
+        listTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
         mapa = new GameObject[10, 10];
         indexListe = 0;
 
 
-        for (int i=0; i<10; i++)
+        for (int i = 0; i < 10; i++)
         {
-            position.x=4*i;
+            position.x = 4 * i;
             for (int j = 0; j < 10; j++)
             {
                 position.z = 4 * j;
@@ -39,7 +51,10 @@ public class MapSpawner : MonoBehaviour
                 mapa[i, j].gameObject.tag = "Tile";
                 GameObject tempObj = mapa[i, j];
                 tempObj.transform.parent = gameObject.transform;
-                listaTile.Add(tempObj);
+                listTile.Add(tempObj);
+
+                terrains.Add(tempObj);
+
                 /* 
                  if (i == j || (i+j)==10-1)
                  {
@@ -95,7 +110,7 @@ public class MapSpawner : MonoBehaviour
             }
         }
 
-        for(int i=0; i<100; i++)
+        for (int i = 0; i < 100; i++)
         {
             StartCoroutine(TweenIng());
         }
@@ -104,18 +119,18 @@ public class MapSpawner : MonoBehaviour
     IEnumerator TweenIng()
     {
         yield return new WaitForSeconds(3);
-        if (indexListe == listaTile.Count) 
-        { 
-            yield break; 
+        if (indexListe == listTile.Count)
+        {
+            yield break;
         }
-        GameObject temp = listaTile[indexListe];
+        GameObject temp = listTile[indexListe];
         indexListe += 1;
         temp.SetActive(true);
         LeanTween.scale(temp, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeOutBounce).setDelay(1f);
     }
 
 
-    
+
 
     void Update()
     {
@@ -124,7 +139,7 @@ public class MapSpawner : MonoBehaviour
     }
 
     public void moveTiles()
-    {
+    {   //kill switch, moves only once
         if (moved)
         {
             if (right)
@@ -171,173 +186,59 @@ public class MapSpawner : MonoBehaviour
         }
         moved = true;
     }
-    
 
-    public void MoveTilesDown()
-    {   
-        for(int i=0; i< numberOfTiles; i++)
-        {
-            for(int j=0; j< numberOfTiles; j++)
-            {
-                if (i ==numberOfTiles-1)
-                {
-                    Vector3 newPosition = new Vector3(0, 0, 0);
-                    //  mapa[i, j].transform.position = mapa[0, j].transform.position + new Vector3(-4, 0,0);
-                    newPosition= mapa[0, j].transform.position + new Vector3(-4, 0, 0);
-                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
-                }
-            }
-        }
-        SwapCoulumnsUP();
-    }
-    public void MoveTilesUp()
+    public void MoveTilesRight()
     {
-        for (int i = 0; i < numberOfTiles; i++)
+        foreach (var el in listTile)
         {
-            for (int j = 0; j < numberOfTiles; j++)
+            if (el.transform.position.z == this.maximumPositionZ)
             {
-                if (i == 0)
-                {
-                    //mapa[i, j].transform.position = mapa[numberOfTiles-1, j].transform.position + new Vector3(4, 0, 0);
-                    Vector3 newPosition = new Vector3(0, 0, 0);
-                    newPosition = mapa[numberOfTiles - 1, j].transform.position + new Vector3(4, 0, 0);
-                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
-                }
+                nextPosition = new Vector3(el.transform.position.x, 0, startPositionZ - distanceBetweenSquares);
+                LeanTween.move(el, nextPosition, 0.35f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
-        SwapColumnDown();
+        startPositionZ -= distanceBetweenSquares;
+        maximumPositionZ -= distanceBetweenSquares;
     }
     public void MoveTilesLeft()
     {
-        for (int i = 0; i < numberOfTiles; i++)
+        foreach (var el in listTile)
         {
-            for (int j = 0; j < numberOfTiles; j++)
+            if (el.transform.position.z == this.startPositionZ)
             {
-                if (j == 0)
-                {
-                    Vector3 newPosition = new Vector3(0, 0, 0);
-                    //mapa[i,j].transform.position = mapa[i,numberOfTiles-1].transform.position + new Vector3(0, 0, 4);
-
-                    newPosition = mapa[i, numberOfTiles - 1].transform.position + new Vector3(0, 0, 4);
-                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
-                }
-                // LeanTween.move(mapa[i, j], mapa[i, j].transform.position + new Vector3(0, 0, 4), 1f).setEase(LeanTweenType.easeInBack);
+                nextPosition = new Vector3(el.transform.position.x, 0, maximumPositionZ + distanceBetweenSquares);
+                LeanTween.move(el, nextPosition, 0.35f).setEase(LeanTweenType.easeInQuint);
             }
         }
-        SwapRowRight();
+        startPositionZ += distanceBetweenSquares;
+        maximumPositionZ += distanceBetweenSquares;
     }
-    public void MoveTilesRight()
+    public void MoveTilesUp()
     {
-        for (int i = 0; i < numberOfTiles; i++)
+        foreach (var el in listTile)
         {
-            for (int j = 0; j < numberOfTiles; j++)
+            if (el.transform.position.x == this.startPositionX)
             {
-                if (j == numberOfTiles-1)
-                {
-                    Vector3 newPosition = new Vector3(0, 0, 0);
-                    newPosition = mapa[i,0].transform.position + new Vector3(0, 0, -4);
-                    LeanTween.move(mapa[i, j], newPosition, 0.3f).setEase(LeanTweenType.easeInBack);
-                }
+                nextPosition = new Vector3(maximumPositionX + distanceBetweenSquares, 0, el.transform.position.z);
+                LeanTween.move(el, nextPosition, 0.35f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
-        SwapRowLeft();
-    }
+        startPositionX += distanceBetweenSquares;
+        maximumPositionX += distanceBetweenSquares;
 
-    public void SwapRowLeft()
+    }
+    public void MoveTilesDown()
     {
-        GameObject[] arrayTmp = new GameObject[numberOfTiles];
-
-        for (int i = 0; i < numberOfTiles; i++)
+        foreach (var el in listTile)
         {
-            arrayTmp[i] = mapa[i,numberOfTiles-1];
-        }
-
-        for (int j = numberOfTiles-1; j>0; j--)
-        {
-            for (int i = numberOfTiles-1; i>=0; i--)
+            if (el.transform.position.x == this.maximumPositionX)
             {
-                mapa[i, j] = mapa[i, j -1];
+                nextPosition = new Vector3(startPositionX - distanceBetweenSquares, 0, el.transform.position.z);
+                LeanTween.move(el, nextPosition, 0.35f).setEase(LeanTweenType.easeInOutExpo);
             }
         }
-        for (int i = 0; i < numberOfTiles; i++)
-        {
-            mapa[i, 0] = arrayTmp[i];
-        }
-
+        startPositionX -= distanceBetweenSquares;
+        maximumPositionX -= distanceBetweenSquares;
     }
-
-
-    public void SwapRowRight()
-    {
-        GameObject[] arrayTmp = new GameObject[numberOfTiles];
-
-        for (int i = 0; i<numberOfTiles; i++)
-        {
-            arrayTmp[i] = mapa[i,0];
-        }
-
-        for (int j = 0; j < numberOfTiles - 1; j++)
-        {
-            for (int i = 0; i < numberOfTiles; i++)
-            {
-                mapa[i, j] = mapa[i, j+1];
-            }
-        }
-        for (int i = 0; i < numberOfTiles; i++)
-        {
-            mapa[i, numberOfTiles - 1] = arrayTmp[i];
-        }
-
-    }
-
-    public void SwapColumnDown()
-    {
-        GameObject[] arrayTmp = new GameObject[numberOfTiles];
-
-        for (int i = 0; i < 10; i++)
-        {
-            arrayTmp[i] = mapa[0, i];
-            // Renderer ob = arrayTmp[i].GetComponent<Renderer>();
-           // ob.material.color = Color.red;
-        }
-
-        for (int i = 0; i <numberOfTiles-1; i++)
-        {
-            for (int j =0; j<numberOfTiles; j++)
-            {
-                mapa[i, j] = mapa[i+ 1, j];
-            }
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            mapa[numberOfTiles-1, i] = arrayTmp[i];
-        }
-    }
-
-
-    public void SwapCoulumnsUP()
-    {
-        GameObject[] arrayTmp = new GameObject[numberOfTiles];
-
-        for (int i = 0; i < 10; i++)
-        {
-            arrayTmp[i] = mapa[numberOfTiles - 1, i];
-            //Renderer ob = arrayTmp[i].GetComponent<Renderer>();
-            //ob.material.color = Color.red;
-        }
-
-        for (int i = numberOfTiles - 1; i > 0; i--)
-        {
-            for (int j = numberOfTiles - 1; j >= 0; j--)
-            {
-                mapa[i, j] = mapa[i - 1, j];
-            }
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            mapa[0, i] = arrayTmp[i];
-        }
-    }
-
 }
-  
+

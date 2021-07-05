@@ -61,8 +61,8 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
-
-        if (nextPlace.x <= maxX && nextPlace.x >= 0 && nextPlace.z <= maxZ && nextPlace.z >= 0 && moved && !isHoping)
+        //nextPlace.x <= maxX && nextPlace.x >= 0 && nextPlace.z <= maxZ && nextPlace.z >= 0
+        if (  moved && !isHoping)
         {
             LeanTween.move(gameObject, nextPlace, 0.28f);
             animator.SetTrigger("hop");
