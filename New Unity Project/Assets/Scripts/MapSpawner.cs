@@ -134,7 +134,7 @@ public class MapSpawner : MonoBehaviour
         GameObject temp = listTile[indexListe];
         indexListe += 1;
         temp.SetActive(true);
-        LeanTween.scale(temp, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeOutBounce).setDelay(1f);
+        LeanTween.scale(temp, new Vector3(1f, 0.1f, 1f), 2f).setEase(LeanTweenType.easeOutBounce).setDelay(1f);
     }
 
 

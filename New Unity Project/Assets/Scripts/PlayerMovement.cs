@@ -75,22 +75,26 @@ public class PlayerMovement : MonoBehaviour
 
             bool isTile = false;
             bool isObst = false;
+            if (hits.Length == 0)
+            {
+                
+                 playerMoved = true;
+                
+            }
             foreach (var x in hits)
             {
-                Debug.Log(x.collider.tag);
+               // Debug.Log(x.collider.tag);
                 if (x.transform.tag == "Obstacle")
                 {
                     isObst = true;
+                    playerMoved = false;
                 }
-                if (x.transform.tag == "Tile")
-                {
-                    isTile = true;
-                }
-                if (isTile && !(isTile && isObst))
+
+                if (!isObst)
                 {
                     playerMoved = true;
                 }
-                else { playerMoved = false; }
+               // else { playerMoved = false; }
             }
             /*
             //Debug.DrawRay(nextPlace+new Vector3(0,2,0), currentDiretcion * rayReach, Color.red);
