@@ -66,4 +66,36 @@ public static class SaveSystem
         }
     }
 
+
+    public static void SaveMap(Map map)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Path.Combine(Application.persistentDataPath, "map.fun");
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        MapData data = new MapData(map);
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static MapData LoadMap()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "map.fun");
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            MapData data = formatter.Deserialize(stream) as MapData;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path);
+            return null;
+        }
+    }
+
 }

@@ -9,11 +9,13 @@ public class Enemy : MonoBehaviour
 
     public void SaveEnemy()
     {
+        Debug.Log("Pozvana SAVE");
         SaveSystem.SaveEnemy(this);
     }
     public void LoadEnemy()
     {
         EnemyData data = SaveSystem.LoadEnemy();
+        Debug.Log("Pozvana LOAD");
 
         this.level = data.level;
         this.health = data.health;
