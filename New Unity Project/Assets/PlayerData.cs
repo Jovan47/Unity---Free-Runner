@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable] //moze da se sacuva u fajl
 public class PlayerData 
 {
-    public int level;
-    public int health;
-    public int coins;
+     public int level;
+     public int health;
+     public int coins;
     public float[] position;
 
     public PlayerData(Player player)
