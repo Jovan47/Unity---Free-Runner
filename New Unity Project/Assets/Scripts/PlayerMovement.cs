@@ -77,13 +77,13 @@ public class PlayerMovement : MonoBehaviour
             bool isObst = false;
             if (hits.Length == 0)
             {
-                
-                 playerMoved = true;
-                
+
+                playerMoved = true;
+
             }
             foreach (var x in hits)
             {
-               // Debug.Log(x.collider.tag);
+                // Debug.Log(x.collider.tag);
                 if (x.transform.tag == "Obstacle")
                 {
                     isObst = true;
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     playerMoved = true;
                 }
-               // else { playerMoved = false; }
+                // else { playerMoved = false; }
             }
             /*
             //Debug.DrawRay(nextPlace+new Vector3(0,2,0), currentDiretcion * rayReach, Color.red);
@@ -123,7 +123,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void FinishedHop()
+
+    //LeanTween.move(gameObject, nextPlace, 0.28f).setOnComplete(()=>TweenCallBack(2));
+
+    public void TweenCallBack(int s)
+    {
+
+    }
+
+
+public void FinishedHop()
     {
         isHoping = false;
     }
