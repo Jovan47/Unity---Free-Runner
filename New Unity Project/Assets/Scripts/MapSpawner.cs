@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> terrains = new List<GameObject>();
-    [SerializeField] private int distanceBetweenSquares;
+    [SerializeField] private int distanceBetweenSquares=4;
     private float maximumPositionX = 36;
     private float startPositionX = 0;
     private float maximumPositionZ = 36;
@@ -19,11 +19,9 @@ public class MapSpawner : MonoBehaviour
     private GameObject[,] mapa;
     private int indexListe;
 
-    private bool left = false;
-    private bool right = false;
-    private bool down = false;
-    private bool up = false;
-    private bool moved = false;
+    
+    private enum Direction{ left,right,down,up,stop};
+    Direction direction;
 
     void Start()
     {
@@ -86,63 +84,37 @@ public class MapSpawner : MonoBehaviour
         LeanTween.scale(temp, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeOutBounce).setDelay(1f);
     }
 
-
-
-
     void Update()
     {
         moveTiles();
-
     }
 
     public void moveTiles()
-    {   //kill switch, moves only once
-        if (moved)
+    {   //Logic, moves only once 
+        if (direction!=Direction.stop)
         {
-            if (right)
+            switch (direction)
             {
-                MoveTilesRight();
-                right = false;
+                case Direction.down:  MoveTilesDown();  break;
+                case Direction.up:    MoveTilesUp();    break;
+                case Direction.left:  MoveTilesLeft();  break;
+                case Direction.right: MoveTilesRight(); break;
+                default: break;
             }
-            if (left)
-            {
-                MoveTilesLeft();
-                left = false;
-            }
-            if (up)
-            {
-                MoveTilesUp();
-                up = false;
-            }
-            if (down)
-            {
-                MoveTilesDown();
-                down = false;
-            }
-            moved = false;
+            direction = Direction.stop;
         }
     }
 
-    public void MoveTiles(string s)
+    public void MoveTiles(int dirr)
     {
-        if (s == "left")
+        switch(dirr)
         {
-            this.left = true;
+            case (int)Direction.down:  direction = Direction.down;  break;
+            case (int)Direction.up:    direction = Direction.up;    break;
+            case (int)Direction.left:  direction = Direction.left;  break;
+            case (int)Direction.right: direction = Direction.right; break;
+            default: break;
         }
-        else if (s == "right")
-        {
-            this.right = true;
-        }
-        else if (s == "down")
-        {
-            down = true;
-        }
-        else if (s == "up")
-        {
-            up = true;
-        }
-        moved = true;
-
     }
 
     public void MoveTilesRight()
@@ -158,6 +130,7 @@ public class MapSpawner : MonoBehaviour
         startPositionZ -= distanceBetweenSquares;
         maximumPositionZ -= distanceBetweenSquares;
     }
+
     public void MoveTilesLeft()
     {
         foreach (var el in listTile)
@@ -171,6 +144,7 @@ public class MapSpawner : MonoBehaviour
         startPositionZ += distanceBetweenSquares;
         maximumPositionZ += distanceBetweenSquares;
     }
+
     public void MoveTilesUp()
     {
         foreach (var el in listTile)
@@ -184,6 +158,7 @@ public class MapSpawner : MonoBehaviour
         startPositionX += distanceBetweenSquares;
         maximumPositionX += distanceBetweenSquares;
     }
+
     public void MoveTilesDown()
     {
         foreach (var el in listTile)

@@ -16,10 +16,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject MapSpawner = null;
     private MapSpawner scriptRef = null;
     private bool playerMoved = false;
-    private string directionMove;
     public LayerMask Obstacles;
     public RaycastHit[] hits;
-
+    private enum Direction { left, right, down, up };
+    Direction direction;
     void Start()
     {
         scriptRef = MapSpawner.GetComponent<MapSpawner>();
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
             nextPlace = transform.position + new Vector3(offSetPlayerMove, 0, 0);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
             moved = true;
-            directionMove = "up";
+            direction = Direction.up;
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping)
@@ -44,14 +44,15 @@ public class PlayerMovement : MonoBehaviour
             nextPlace = transform.position + new Vector3(0, 0, offSetPlayerMove);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
             moved = true;
-            directionMove = "left";
+            direction = Direction.left;
+
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping)
         {
             nextPlace = transform.position + new Vector3(-offSetPlayerMove, 0, 0);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
             moved = true;
-            directionMove = "down";
+            direction = Direction.down;
 
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown("d") && !isHoping)
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
             nextPlace = transform.position + new Vector3(0, 0, -offSetPlayerMove);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
             moved = true;
-            directionMove = "right";
+            direction = Direction.right;
 
 
         }
@@ -73,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
 
             Debug.DrawRay(nextPlace, dirr * rayReach, Color.red);
 
-            bool isTile = false;
             bool isObst = false;
             if (hits.Length == 0)
             {
@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetTrigger("hop");
                 isHoping = true;
                 moved = false;
-                scriptRef.MoveTiles(directionMove);
+                scriptRef.MoveTiles((int)direction);
             }
         }
     }
