@@ -5,8 +5,6 @@ using UnityEngine;
 public class MapSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> terrains = new List<GameObject>();
-    // [SerializeField] private int count;
-    // [SerializeField] private float playerJumpDistance = 4;
     [SerializeField] private int distanceBetweenSquares;
     private float maximumPositionX = 36;
     private float startPositionX = 0;
@@ -46,56 +44,7 @@ public class MapSpawner : MonoBehaviour
                 tempObj.transform.parent = gameObject.transform;
                 listTile.Add(tempObj);
                 terrains.Add(tempObj);
-                /* 
-                 if (i == j || (i+j)==10-1)
-                 {
-                     Renderer rend = tempObj.GetComponent<Renderer>();
-                     rend.material.color = secondColor;
-                 }
-                */
-                Renderer rend = tempObj.GetComponent<Renderer>();
-
-                if (i == 0)
-                {
-                    rend.material.color = Color.cyan;
-                }
-                if (i == 1)
-                {
-                    rend.material.color = Color.white;
-                }
-                if (i == 2)
-                {
-                    rend.material.color = Color.black;
-                }
-                if (i == 3)
-                {
-                    rend.material.color = Color.gray;
-                }
-                if (i == 4)
-                {
-                    rend.material.color = Color.green;
-                }
-                if (i == 5)
-                {
-                    rend.material.color = Color.blue;
-                }
-                if (i == 6)
-                {
-                    rend.material.color = Color.red;
-                }
-                if (i == 7)
-                {
-                    rend.material.color = Color.yellow;
-                }
-                if (i == 8)
-                {
-                    rend.material.color = new Color32(173, 173, 21, 200);
-                }
-                if (i == 9)
-                {
-                    rend.material.color = new Color32(100, 2, 21, 12);
-                }
-
+        
                 tempObj.SetActive(false);
                 // LeanTween.scale(tempObj, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeInSine);
             }
