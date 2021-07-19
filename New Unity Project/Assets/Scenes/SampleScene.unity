@@ -1717,6 +1717,7 @@ MonoBehaviour:
   target: {fileID: 1971792184}
   smoothSpeed: 5
   offset: {x: -25, y: 15, z: 0}
+  rotationOffset: {x: 0, y: 0, z: -4}
   minZoom: 1
   maxZoom: 5
   zoomSpeed: 2

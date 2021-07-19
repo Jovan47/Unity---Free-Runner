@@ -51,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
         if (timerSecond >= 9)
         {
 
-            if (timer >= timeTick)
+            if (timer >= timeTick&&!PauseMenu.isPaused)
             {
                 timer = 0;
                 EnemyJump();

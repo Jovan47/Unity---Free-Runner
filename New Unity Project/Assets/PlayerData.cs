@@ -8,7 +8,7 @@ public class PlayerData
      public int level;
      public int health;
      public int coins;
-    public float[] position;
+     public float[] position;
 
     public PlayerData(Player player)
     {
