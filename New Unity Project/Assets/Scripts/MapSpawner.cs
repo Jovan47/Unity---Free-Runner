@@ -16,7 +16,6 @@ public class MapSpawner : MonoBehaviour
     public GameObject obstaclePrefab; //fsdf
     private int numberOfObstacles = 10;
     private List<GameObject> listTile;
-    private GameObject[,] mapa;
     private int indexListe;
 
     
@@ -27,7 +26,6 @@ public class MapSpawner : MonoBehaviour
     {
         listTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
-        mapa = new GameObject[10, 10];
         indexListe = 0;
 
         for (int i = 0; i < 10; i++)
@@ -36,9 +34,8 @@ public class MapSpawner : MonoBehaviour
             for (int j = 0; j < 10; j++)
             {
                 position.z = 4 * j;
-                mapa[i, j] = Instantiate(TerrainPrefab, position, Quaternion.identity);
-                mapa[i, j].gameObject.tag = "Tile";
-                GameObject tempObj = mapa[i, j];
+                GameObject tempObj = Instantiate(TerrainPrefab, position, Quaternion.identity);
+                tempObj.gameObject.tag = "Tile";
                 tempObj.transform.parent = gameObject.transform;
                 listTile.Add(tempObj);
                 terrains.Add(tempObj);
@@ -124,7 +121,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.z == this.maximumPositionZ)
             {
                 nextPosition = new Vector3(el.transform.position.x, 0, startPositionZ - distanceBetweenSquares);
-                LeanTween.move(el, nextPosition, 0.29f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
         startPositionZ -= distanceBetweenSquares;
@@ -138,7 +135,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.z == this.startPositionZ)
             {
                 nextPosition = new Vector3(el.transform.position.x, 0, maximumPositionZ + distanceBetweenSquares);
-                LeanTween.move(el, nextPosition, 0.29f).setEase(LeanTweenType.easeInQuint);
+                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInQuint);
             }
         }
         startPositionZ += distanceBetweenSquares;
@@ -152,7 +149,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.x == this.startPositionX)
             {
                 nextPosition = new Vector3(maximumPositionX + distanceBetweenSquares, 0, el.transform.position.z);
-                LeanTween.move(el, nextPosition, 0.29f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
         startPositionX += distanceBetweenSquares;
@@ -166,7 +163,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.x == this.maximumPositionX)
             {
                 nextPosition = new Vector3(startPositionX - distanceBetweenSquares, 0, el.transform.position.z);
-                LeanTween.move(el, nextPosition, 0.29f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
         startPositionX -= distanceBetweenSquares;
