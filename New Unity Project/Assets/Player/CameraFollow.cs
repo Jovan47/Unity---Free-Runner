@@ -45,8 +45,6 @@ public class CameraFollow : MonoBehaviour
 
         if (!PauseMenu.isPaused)
         {
-            LeanTween.cancel(gameObject);
-            isTweenComplete = true;
             Vector3 desiredPosition = target.position + offset * currentZoom;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
@@ -64,7 +62,7 @@ public class CameraFollow : MonoBehaviour
         }
         else if(!PauseMenu.isPaused && flagCount != 0)
         {
-            
+            LeanTween.cancel(gameObject);
             transform.rotation = beforeRotation;
             flagCount = 0;
         }
@@ -76,7 +74,7 @@ public class CameraFollow : MonoBehaviour
         //Vector3 pos =transform.position = target.position + new Vector3(0, 3, -10);
     
         transform.RotateAround(target.position, Vector3.up, rotationSpeed * Time.unscaledTime);
-        if (isTweenComplete)
+        if (!LeanTween.isTweening(gameObject))
         {
             isTweenComplete = false;
             LeanTween.moveY(gameObject, 5f, 1f).setLoopPingPong();
