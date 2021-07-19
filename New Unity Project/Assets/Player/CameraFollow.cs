@@ -22,6 +22,8 @@ public class CameraFollow : MonoBehaviour
     private Quaternion beforeRotation;
     private int  flagCount = 0;
     private bool flagSwitcher = false;
+    public bool isTweenComplete = true;
+    private float count=0;
     private void Start()
     {
       //  transform.LookAt(target);
@@ -43,6 +45,8 @@ public class CameraFollow : MonoBehaviour
 
         if (!PauseMenu.isPaused)
         {
+            LeanTween.cancel(gameObject);
+            isTweenComplete = true;
             Vector3 desiredPosition = target.position + offset * currentZoom;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
@@ -60,6 +64,7 @@ public class CameraFollow : MonoBehaviour
         }
         else if(!PauseMenu.isPaused && flagCount != 0)
         {
+            
             transform.rotation = beforeRotation;
             flagCount = 0;
         }
@@ -69,8 +74,17 @@ public class CameraFollow : MonoBehaviour
     public void RotateCameraWhenPaused()
     {
         //Vector3 pos =transform.position = target.position + new Vector3(0, 3, -10);
-        
+    
         transform.RotateAround(target.position, Vector3.up, rotationSpeed * Time.unscaledTime);
+        if (isTweenComplete)
+        {
+            isTweenComplete = false;
+            LeanTween.moveY(gameObject, 5f, 1f).setLoopPingPong();
+        }
+    }
 
+    public void TweenCallback()
+    {
+        isTweenComplete = true;
     }
 }
