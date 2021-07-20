@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     private float currentYaw = 0f;
     private float timer = 0;
     private bool lookAtPlayerSwitcher = true;
-    private float rotationSpeed=0.1f;
+    private float rotationSpeed=20f;
 
     private Quaternion beforeRotation;
     private int  flagCount = 0;
@@ -73,7 +73,7 @@ public class CameraFollow : MonoBehaviour
     {
         //Vector3 pos =transform.position = target.position + new Vector3(0, 3, -10);
     
-        transform.RotateAround(target.position, Vector3.up, rotationSpeed * Time.unscaledTime);
+        transform.RotateAround(target.position, Vector3.up, rotationSpeed * Time.deltaTime);
         if (!LeanTween.isTweening(gameObject))
         {
             isTweenComplete = false;

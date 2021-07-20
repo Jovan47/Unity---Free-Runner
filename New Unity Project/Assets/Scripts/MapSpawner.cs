@@ -14,9 +14,11 @@ public class MapSpawner : MonoBehaviour
     public GameObject TerrainPrefab;
     public Color secondColor;
     public GameObject obstaclePrefab; //fsdf
-    private int numberOfObstacles = 10;
+    private int numberOfObstacles = 20;
     private List<GameObject> listTile;
+    private List<GameObject> obstaclesList = new List<GameObject>();
     private int indexListe;
+    public float obstaclesRotateSpeed = 2f;
 
     
     private enum Direction{ left,right,down,up,stop};
@@ -62,6 +64,7 @@ public class MapSpawner : MonoBehaviour
             {
                 GameObject t = Instantiate(obstaclePrefab, listTile[i].transform.position + new Vector3(0, 1, 0), Quaternion.identity);
                 t.transform.parent = listTile[i].transform;
+                obstaclesList.Add(t);
                 numberOfObstacles--;
             }
         }
@@ -169,5 +172,9 @@ public class MapSpawner : MonoBehaviour
         startPositionX -= distanceBetweenSquares;
         maximumPositionX -= distanceBetweenSquares;
     }
+
+
+ 
+
 }
 
