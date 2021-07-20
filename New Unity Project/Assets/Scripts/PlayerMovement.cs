@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
             if (playerMoved)
             {
                 playerMoved = false;
-                LeanTween.move(gameObject, nextPlace, 0.28f);
+                LeanTween.move(gameObject, nextPlace, 0.15f);
                 animator.SetTrigger("hop");
                 isHoping = true;
                 moved = false;
