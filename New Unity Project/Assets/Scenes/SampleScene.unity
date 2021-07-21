@@ -1603,7 +1603,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1595238da36aee4f9b0ffbe915bde8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - clip: {fileID: 0}
+    name: 
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 0}
+    name: 
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &1411762725
 Transform:
   m_ObjectHideFlags: 0
