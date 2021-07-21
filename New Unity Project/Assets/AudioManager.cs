@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
-{
+{  
     public Sound[] sounds;
     public static AudioManager instance;
     public Slider volumeSlider;
@@ -13,13 +13,14 @@ public class AudioManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-           
             Load();
         }
         else
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
         }
+
+        #region singleton
         if (instance == null)
         {
             instance = this;
@@ -27,11 +28,11 @@ public class AudioManager : MonoBehaviour
         else
         {
              Destroy(gameObject);
-            return;
+             return;
         }
+        #endregion
 
-         DontDestroyOnLoad(gameObject);
-
+        DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds)
         { 
             s.source=gameObject.AddComponent<AudioSource>();
@@ -41,9 +42,8 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
 
-        Play("BackM");
+        Play("BackgroundMusic");
     }
-
     public void Play(string name)
     {
         Sound s=Array.Find(sounds, sound => sound.name == name);
@@ -65,33 +65,27 @@ public class AudioManager : MonoBehaviour
         AudioListener.volume = volumeSlider.value;
         save();
     }
-
     public void Load()
     {
         if (volumeSlider != null)
         {
             volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         }
-        // AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
     }
-
     public void save()
     {
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
         PlayerPrefs.Save();
     }
-
     public void ButtonHover()
     {
         PlayButtonSound("ButtonHover");
     }
-
     public void StartGameButton()
     {
         PlayButtonSound("PlayButton");
 
     }
-
     public void PlayButtonSound(string name)
     {
         Sound s=Array.Find(sounds, sound => sound.name == name);

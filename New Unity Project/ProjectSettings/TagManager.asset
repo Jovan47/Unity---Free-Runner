@@ -14,7 +14,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - LevelLoader
   - 
   - 
   - 
@@ -42,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: LevelLoader
+    uniqueID: 4449377
+    locked: 0
+  - name: UI
+    uniqueID: 1132697705
     locked: 0
