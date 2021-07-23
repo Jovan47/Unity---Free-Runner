@@ -17,7 +17,6 @@ public class Tween : MonoBehaviour
             TweenObject();
         }
     }
-
     public void TweenObject()
     {
         foreach (var x in array)

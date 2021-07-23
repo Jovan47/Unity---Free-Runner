@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-            Load();
+            LoadVolume();
         }
         else
         {
@@ -42,9 +42,9 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
 
-        Play("BackgroundMusic");
+        PlayMusic("BackgroundMusic");
     }
-    public void Play(string name)
+    public void PlayMusic(string name)
     {
         Sound s=Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -63,16 +63,16 @@ public class AudioManager : MonoBehaviour
     public void ChangeVolume()
     {
         AudioListener.volume = volumeSlider.value;
-        save();
+        SaveVolume();
     }
-    public void Load()
+    public void LoadVolume()
     {
         if (volumeSlider != null)
         {
             volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
         }
     }
-    public void save()
+    public void SaveVolume()
     {
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
         PlayerPrefs.Save();

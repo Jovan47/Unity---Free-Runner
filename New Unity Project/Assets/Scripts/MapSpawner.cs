@@ -1,27 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class MapSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> terrains = new List<GameObject>();
-    [SerializeField] private int distanceBetweenSquares=4;
+    [SerializeField] private int distanceBetweenSquares = 4;
     private float maximumPositionX = 36;
-    private float startPositionX = 0;
+    private float minPositionX = 0;
     private float maximumPositionZ = 36;
-    private float startPositionZ = 0;
+    private float minPositionZ = 0;
     private Vector3 nextPosition = new Vector3(0, 0, 0);
     public GameObject TerrainPrefab;
     public Color secondColor;
     public GameObject obstaclePrefab; //fsdf
-    private int numberOfObstacles = 20;
     private List<GameObject> listTile;
-    private List<GameObject> obstaclesList = new List<GameObject>();
+    private List<GameObject> listObstacles = new List<GameObject>();
+    private List<Renderer> listOfRend = new List<Renderer>();
+    private List<GameObject> listOfObstacleBody = new List<GameObject>();
     private int indexListe;
     public float obstaclesRotateSpeed = 2f;
-
-    
-    private enum Direction{ left,right,down,up,stop};
+    private float timer = 0f;
+    float startObstaclePosY;
+    bool flag = false;
+    private float timerSecond = 0f;
+    private enum Direction { left, right, down, up, stop };
     Direction direction;
 
     void Start()
@@ -41,7 +44,8 @@ public class MapSpawner : MonoBehaviour
                 tempObj.transform.parent = gameObject.transform;
                 listTile.Add(tempObj);
                 terrains.Add(tempObj);
-        
+                listOfRend.Add(tempObj.GetComponent<Renderer>());
+
                 tempObj.SetActive(false);
                 // LeanTween.scale(tempObj, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeInSine);
             }
@@ -51,29 +55,50 @@ public class MapSpawner : MonoBehaviour
         {
             StartCoroutine(TweenIng());
         }
-        StartCoroutine(MakeObstacles());
+
+        StartCoroutine(SpawnObstacles());
+
+
+
     }
-
-    IEnumerator MakeObstacles()
+    void Update()
     {
-        yield return new WaitForSeconds(8);
+        timer += Time.deltaTime;
+        timerSecond += Time.deltaTime;
 
-        for (int i = 1; i < listTile.Count; i++)
+
+        moveTiles();
+
+        if (timerSecond >= 3f && flag)
         {
-            if ((i * i) % 8 == 0 && numberOfObstacles > 0)
-            {
-                GameObject t = Instantiate(obstaclePrefab, listTile[i].transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-                t.transform.parent = listTile[i].transform;
-                obstaclesList.Add(t);
-                numberOfObstacles--;
-            }
+            ObstaclesLiftDown();
+            timer = 0;
+            timerSecond = 0;
+        }
+
+        if (timer >= 6f)
+        {
+            flag = true;
         }
 
     }
 
+    IEnumerator SpawnObstacles()
+    {
+        yield return new WaitForSeconds(5f);
+        foreach (var x in listTile)
+        {
+            GameObject t = Instantiate(obstaclePrefab, x.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+            t.transform.parent = x.transform;
+            listObstacles.Add(t);
+            listOfObstacleBody.Add(t.transform.GetChild(0).gameObject);
+        }
+       
+    }
+
     IEnumerator TweenIng()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         if (indexListe == listTile.Count)
         {
             yield break;
@@ -84,20 +109,17 @@ public class MapSpawner : MonoBehaviour
         LeanTween.scale(temp, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeOutBounce).setDelay(1f);
     }
 
-    void Update()
-    {
-        moveTiles();
-    }
+
 
     public void moveTiles()
     {   //Logic, moves only once 
-        if (direction!=Direction.stop)
+        if (direction != Direction.stop)
         {
             switch (direction)
             {
-                case Direction.down:  MoveTilesDown();  break;
-                case Direction.up:    MoveTilesUp();    break;
-                case Direction.left:  MoveTilesLeft();  break;
+                case Direction.down: MoveTilesDown(); break;
+                case Direction.up: MoveTilesUp(); break;
+                case Direction.left: MoveTilesLeft(); break;
                 case Direction.right: MoveTilesRight(); break;
                 default: break;
             }
@@ -107,11 +129,11 @@ public class MapSpawner : MonoBehaviour
 
     public void MoveTiles(int dirr)
     {
-        switch(dirr)
+        switch (dirr)
         {
-            case (int)Direction.down:  direction = Direction.down;  break;
-            case (int)Direction.up:    direction = Direction.up;    break;
-            case (int)Direction.left:  direction = Direction.left;  break;
+            case (int)Direction.down: direction = Direction.down; break;
+            case (int)Direction.up: direction = Direction.up; break;
+            case (int)Direction.left: direction = Direction.left; break;
             case (int)Direction.right: direction = Direction.right; break;
             default: break;
         }
@@ -123,11 +145,11 @@ public class MapSpawner : MonoBehaviour
         {
             if (el.transform.position.z == this.maximumPositionZ)
             {
-                nextPosition = new Vector3(el.transform.position.x, 0, startPositionZ - distanceBetweenSquares);
+                nextPosition = new Vector3(el.transform.position.x, 0, minPositionZ - distanceBetweenSquares);
                 LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
-        startPositionZ -= distanceBetweenSquares;
+        minPositionZ -= distanceBetweenSquares;
         maximumPositionZ -= distanceBetweenSquares;
     }
 
@@ -135,13 +157,13 @@ public class MapSpawner : MonoBehaviour
     {
         foreach (var el in listTile)
         {
-            if (el.transform.position.z == this.startPositionZ)
+            if (el.transform.position.z == this.minPositionZ)
             {
                 nextPosition = new Vector3(el.transform.position.x, 0, maximumPositionZ + distanceBetweenSquares);
                 LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInQuint);
             }
         }
-        startPositionZ += distanceBetweenSquares;
+        minPositionZ += distanceBetweenSquares;
         maximumPositionZ += distanceBetweenSquares;
     }
 
@@ -149,32 +171,96 @@ public class MapSpawner : MonoBehaviour
     {
         foreach (var el in listTile)
         {
-            if (el.transform.position.x == this.startPositionX)
+            if (el.transform.position.x == this.minPositionX)
             {
                 nextPosition = new Vector3(maximumPositionX + distanceBetweenSquares, 0, el.transform.position.z);
                 LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
-        startPositionX += distanceBetweenSquares;
+        minPositionX += distanceBetweenSquares;
         maximumPositionX += distanceBetweenSquares;
     }
 
     public void MoveTilesDown()
     {
+        List<GameObject> movedTiles = new List<GameObject>();
+
         foreach (var el in listTile)
         {
             if (el.transform.position.x == this.maximumPositionX)
             {
-                nextPosition = new Vector3(startPositionX - distanceBetweenSquares, 0, el.transform.position.z);
+                nextPosition = new Vector3(minPositionX - distanceBetweenSquares, 0, el.transform.position.z);
                 LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
+
+                movedTiles.Add(el);
             }
         }
-        startPositionX -= distanceBetweenSquares;
+        minPositionX -= distanceBetweenSquares;
         maximumPositionX -= distanceBetweenSquares;
     }
 
 
- 
+    public void ObstaclesLiftDown()
+    {
+        int numberOfRandomObstacles = Random.Range(10, listObstacles.Count);
+
+        for(int i=0; i< numberOfRandomObstacles; i++)
+        {
+            int index = Random.Range(0, listObstacles.Count);
+            //Vector3 pos = liftOfObstacleBody[index].transform.position;
+
+            if (listOfObstacleBody[index].gameObject.active ==true)
+            {
+
+                 StartCoroutine(ChangeColorOfRendForSec(index,true));
+                 StartCoroutine(movePlayerDown(index, false));
+                // LeanTween.moveY(liftOfObstacleBody[index],-3f, 0.14f);
+
+            }else
+            {
+                StartCoroutine(ChangeColorOfRendForSec(index,false));
+                StartCoroutine(movePlayerDown(index, true));
+
+                // LeanTween.moveY(liftOfObstacleBody[index], 3f, 0.14f);
+            }
+        }
+
+    }
+  
+    public IEnumerator ChangeColorOfRendForSec(int index,bool dir)
+    {
+        float spawnDelay = 1f;
+        float tileFlashSpeed = 4f;
+            
+        Material tileMat = listOfRend[index].material;
+        Color initialCOlor = tileMat.color;
+        Color flashColor;
+        float spawnTimer = 0;
+
+        if (dir)
+        {
+            flashColor = Color.green;
+        }
+        else
+        {
+            flashColor = Color.red;
+        }
+        while (spawnTimer < spawnDelay)
+        {
+            tileMat.color = Color.Lerp(initialCOlor, flashColor, Mathf.PingPong(spawnTimer * tileFlashSpeed, 1f));
+            spawnTimer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
+   IEnumerator movePlayerDown(int index,bool dir)
+    {
+        yield return new WaitForSeconds(1f);
+
+        listOfObstacleBody[index].SetActive(dir);
+
+    }
 
 }
 
