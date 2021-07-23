@@ -18,6 +18,7 @@ public class MapSpawner : MonoBehaviour
     private List<GameObject> listObstacles = new List<GameObject>();
     private List<Renderer> listOfRend = new List<Renderer>();
     private List<GameObject> listOfObstacleBody = new List<GameObject>();
+    private Color orignialTileColor;
     private int indexListe;
     public float obstaclesRotateSpeed = 2f;
     private float timer = 0f;
@@ -32,7 +33,6 @@ public class MapSpawner : MonoBehaviour
         listTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
         indexListe = 0;
-
         for (int i = 0; i < 10; i++)
         {
             position.x = 4 * i;
@@ -45,7 +45,6 @@ public class MapSpawner : MonoBehaviour
                 listTile.Add(tempObj);
                 terrains.Add(tempObj);
                 listOfRend.Add(tempObj.GetComponent<Renderer>());
-
                 tempObj.SetActive(false);
                 // LeanTween.scale(tempObj, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeInSine);
             }
@@ -58,7 +57,7 @@ public class MapSpawner : MonoBehaviour
 
         StartCoroutine(SpawnObstacles());
 
-
+        orignialTileColor = listOfRend[0].material.color;
 
     }
     void Update()
@@ -90,6 +89,7 @@ public class MapSpawner : MonoBehaviour
         {
             GameObject t = Instantiate(obstaclePrefab, x.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
             t.transform.parent = x.transform;
+            t.transform.GetChild(0).gameObject.SetActive(false);
             listObstacles.Add(t);
             listOfObstacleBody.Add(t.transform.GetChild(0).gameObject);
         }
@@ -209,17 +209,18 @@ public class MapSpawner : MonoBehaviour
             int index = Random.Range(0, listObstacles.Count);
             //Vector3 pos = liftOfObstacleBody[index].transform.position;
 
-            if (listOfObstacleBody[index].gameObject.active ==true)
+            if (listOfObstacleBody[index].gameObject.activeInHierarchy ==false)
             {
 
-                 StartCoroutine(ChangeColorOfRendForSec(index,true));
-                 StartCoroutine(movePlayerDown(index, false));
+                 StartCoroutine(ChangeColorOfRendForSec(index,Color.red));
+                 StartCoroutine(ObstacleActiveSwitcher(index, true));
                 // LeanTween.moveY(liftOfObstacleBody[index],-3f, 0.14f);
 
-            }else
+            }
+            else if(listOfObstacleBody[index].gameObject.activeInHierarchy ==true)
             {
-                StartCoroutine(ChangeColorOfRendForSec(index,false));
-                StartCoroutine(movePlayerDown(index, true));
+                StartCoroutine(ChangeColorOfRendForSec(index,Color.green));
+                StartCoroutine(ObstacleActiveSwitcher(index, false));
 
                 // LeanTween.moveY(liftOfObstacleBody[index], 3f, 0.14f);
             }
@@ -227,38 +228,31 @@ public class MapSpawner : MonoBehaviour
 
     }
   
-    public IEnumerator ChangeColorOfRendForSec(int index,bool dir)
-    {
+    public IEnumerator ChangeColorOfRendForSec(int index,Color color)
+    {   
+        
         float spawnDelay = 1f;
         float tileFlashSpeed = 4f;
-            
         Material tileMat = listOfRend[index].material;
         Color initialCOlor = tileMat.color;
-        Color flashColor;
+        Color flashColor=color;
         float spawnTimer = 0;
 
-        if (dir)
-        {
-            flashColor = Color.green;
-        }
-        else
-        {
-            flashColor = Color.red;
-        }
         while (spawnTimer < spawnDelay)
         {
             tileMat.color = Color.Lerp(initialCOlor, flashColor, Mathf.PingPong(spawnTimer * tileFlashSpeed, 1f));
             spawnTimer += Time.deltaTime;
+
             yield return null;
         }
+        tileMat.color = orignialTileColor;
     }
 
 
-   IEnumerator movePlayerDown(int index,bool dir)
+   IEnumerator ObstacleActiveSwitcher(int index,bool status)
     {
-        yield return new WaitForSeconds(1f);
-
-        listOfObstacleBody[index].SetActive(dir);
+        yield return new WaitForSeconds(1.1f);
+        listOfObstacleBody[index].SetActive(status);
 
     }
 
