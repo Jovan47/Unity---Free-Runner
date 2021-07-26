@@ -110,7 +110,7 @@ public class MapSpawner : MonoBehaviour
     }
 
 
-
+    #region MoveLogic
     public void moveTiles()
     {   //Logic, moves only once 
         if (direction != Direction.stop)
@@ -146,7 +146,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.z == this.maximumPositionZ)
             {
                 nextPosition = new Vector3(el.transform.position.x, 0, minPositionZ - distanceBetweenSquares);
-                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.1f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
         minPositionZ -= distanceBetweenSquares;
@@ -160,7 +160,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.z == this.minPositionZ)
             {
                 nextPosition = new Vector3(el.transform.position.x, 0, maximumPositionZ + distanceBetweenSquares);
-                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInQuint);
+                LeanTween.move(el, nextPosition, 0.1f).setEase(LeanTweenType.easeInQuint);
             }
         }
         minPositionZ += distanceBetweenSquares;
@@ -174,7 +174,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.x == this.minPositionX)
             {
                 nextPosition = new Vector3(maximumPositionX + distanceBetweenSquares, 0, el.transform.position.z);
-                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.1f).setEase(LeanTweenType.easeInOutCirc);
             }
         }
         minPositionX += distanceBetweenSquares;
@@ -190,7 +190,7 @@ public class MapSpawner : MonoBehaviour
             if (el.transform.position.x == this.maximumPositionX)
             {
                 nextPosition = new Vector3(minPositionX - distanceBetweenSquares, 0, el.transform.position.z);
-                LeanTween.move(el, nextPosition, 0.18f).setEase(LeanTweenType.easeInOutCirc);
+                LeanTween.move(el, nextPosition, 0.1f).setEase(LeanTweenType.easeInOutCirc);
 
                 movedTiles.Add(el);
             }
@@ -198,7 +198,7 @@ public class MapSpawner : MonoBehaviour
         minPositionX -= distanceBetweenSquares;
         maximumPositionX -= distanceBetweenSquares;
     }
-
+    #endregion
 
     public void ObstaclesLiftDown()
     {
