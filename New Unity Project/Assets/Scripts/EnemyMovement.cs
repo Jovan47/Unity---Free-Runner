@@ -51,12 +51,20 @@ public class EnemyMovement : MonoBehaviour
         if (timerSecond >= 9)
         {
 
-            if (timer >= timeTick&&!PauseMenu.isPaused)
+            if (timer >= timeTick && !PauseMenu.isPaused)
             {
                 timer = 0;
                 EnemyJump();
             }
         }
+
+        if ((gameObject.transform.position.x == target.position.x) && (gameObject.transform.position.z == target.position.z))
+        {
+            PauseMenu.gameOver = true;
+            PauseMenu.isPaused = true;
+            PauseMenu.GameIsPaused = true;
+        }
+
     }
     public void FinishedHopEnemy()
     {
@@ -116,11 +124,7 @@ public class EnemyMovement : MonoBehaviour
     {
         ShortestPath();
 
-        if (gameObject.transform.position == target.position)
-        {
-            RestartTheGame();
-            return;
-        }
+       
 
         if (goLeft)
         {

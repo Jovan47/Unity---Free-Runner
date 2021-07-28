@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField]
     public static bool GameIsPaused = false;
     public static bool RestartGame = false;
     public GameObject pauseMenuUI;
+    [SerializeField]
     public static bool isPaused;
+    public static bool gameOver = false;
+
+
+
+    private void Awake()
+    {
+        gameOver = false;
+    }
 
     void Update()
     {
@@ -26,19 +36,33 @@ public class PauseMenu : MonoBehaviour
 
     }
 
+   
+
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
         GameIsPaused = false;
         isPaused = false;
     }
-    public void Pause()
+
+    public void GameOver()
     {
-        pauseMenuUI.SetActive(true);
+        GameIsPaused = true;
+        isPaused = true;
+    }
+
+    public void Pause()
+    { 
         GameIsPaused = true;
         isPaused = true;
 
-      //  Debug.Log("PAUSE MENU...");
+        if (!gameOver)
+        {
+            pauseMenuUI.SetActive(true);
+
+        }
+
+        //  Debug.Log("PAUSE MENU...");
     }
 
     public void LoadMenu()
@@ -50,6 +74,10 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         GameIsPaused = false;
+        if (gameOver)
+        { 
+            gameOver = false; 
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
