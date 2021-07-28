@@ -10,7 +10,6 @@ public class PauseMenu : MonoBehaviour
     public static bool RestartGame = false;
     public GameObject pauseMenuUI;
     [SerializeField]
-    public static bool isPaused;
     public static bool gameOver = false;
 
 
@@ -33,35 +32,33 @@ public class PauseMenu : MonoBehaviour
                 Pause();
             }
         }
+        if (gameOver)
+        {
+            GameIsPaused = true;
+        }
 
     }
 
-   
+
 
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
         GameIsPaused = false;
-        isPaused = false;
     }
 
-    public void GameOver()
-    {
-        GameIsPaused = true;
-        isPaused = true;
-    }
+
 
     public void Pause()
     { 
         GameIsPaused = true;
-        isPaused = true;
 
         if (!gameOver)
         {
             pauseMenuUI.SetActive(true);
 
         }
-
+        
         //  Debug.Log("PAUSE MENU...");
     }
 
@@ -72,13 +69,17 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        isPaused = false;
         GameIsPaused = false;
-        if (gameOver)
-        { 
-            gameOver = false; 
-        }
+        gameOver = false;
+        StartCoroutine(WaitOneSec());
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    IEnumerator WaitOneSec()
+    {
+        yield return new WaitForSeconds(1);
+        
     }
 
     public void QuitGame()

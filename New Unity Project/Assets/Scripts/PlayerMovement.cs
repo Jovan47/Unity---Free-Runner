@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("w") && !isHoping && !PauseMenu.isPaused)
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("w") && !isHoping && !PauseMenu.GameIsPaused)
         {
             nextPlace = transform.position + new Vector3(offSetPlayerMove, 0, 0);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.up;
         }
 
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping && !PauseMenu.isPaused)
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown("a") && !isHoping && !PauseMenu.GameIsPaused)
         {
             nextPlace = transform.position + new Vector3(0, 0, offSetPlayerMove);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.left;
 
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping && !PauseMenu.isPaused)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s") && !isHoping && !PauseMenu.GameIsPaused)
         {
             nextPlace = transform.position + new Vector3(-offSetPlayerMove, 0, 0);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.down;
 
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown("d") && !isHoping && !PauseMenu.isPaused)
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown("d") && !isHoping && !PauseMenu.GameIsPaused)
         {
             nextPlace = transform.position + new Vector3(0, 0, -offSetPlayerMove);
             currentDiretcion = ((nextPlace - new Vector3(0, 4, 0)) - nextPlace).normalized;

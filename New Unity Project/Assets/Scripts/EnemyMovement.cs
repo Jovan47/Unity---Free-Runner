@@ -20,8 +20,6 @@ public class EnemyMovement : MonoBehaviour
 
     public Transform target;
     private Animator animator;
-    public GameObject player;
-    public GameObject menu;
     private string directionMove;
 
     private bool goLeft = false;
@@ -31,10 +29,13 @@ public class EnemyMovement : MonoBehaviour
 
     private bool resetALL = false;
     private bool startALL = false;
-
+    
 
     private float timeTick = 0.5f;
     private float timer;
+    private float timerSpawn = 0f;
+    private static int number=0;
+
     void Start()
     {
         moved = false;
@@ -43,27 +44,40 @@ public class EnemyMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         StartTimer();
     }
+
+    private void FixedUpdate()
+    {
+        if (Vector3.Distance(target.transform.position,gameObject.transform.position)<1f)
+        {
+            PauseMenu.gameOver = true;
+
+        }
+    }
+
     void Update()
     {
         timerSecond += Time.deltaTime;
         timer += Time.deltaTime;
-
-        if (timerSecond >= 9)
+        timerSpawn += Time.deltaTime;
+        if (timerSecond >= 4 )
         {
 
-            if (timer >= timeTick && !PauseMenu.isPaused)
+            if (timer >= timeTick && !PauseMenu.GameIsPaused)
             {
                 timer = 0;
                 EnemyJump();
             }
+
+
+            if (timerSpawn >= 10)
+            {
+                Instantiate(gameObject, transform.position + new Vector3(-4, 0, -4), Quaternion.identity);
+                timerSpawn = 0;
+            }
+
         }
 
-        if ((gameObject.transform.position.x == target.position.x) && (gameObject.transform.position.z == target.position.z))
-        {
-            PauseMenu.gameOver = true;
-            PauseMenu.isPaused = true;
-            PauseMenu.GameIsPaused = true;
-        }
+
 
     }
     public void FinishedHopEnemy()

@@ -43,7 +43,7 @@ public class CameraFollow : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (!PauseMenu.isPaused)
+        if (!PauseMenu.GameIsPaused)
         {
             Vector3 desiredPosition = target.position + offset * currentZoom;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
@@ -51,7 +51,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         //transform.RotateAround(target.position, Vector3.up, currentYaw);
-        if (PauseMenu.isPaused)
+        if (PauseMenu.GameIsPaused)
         {
             if (flagCount == 0)
             {
@@ -60,7 +60,7 @@ public class CameraFollow : MonoBehaviour
             }
             RotateCameraWhenPaused();
         }
-        else if(!PauseMenu.isPaused && flagCount != 0)
+        else if(!PauseMenu.GameIsPaused && flagCount != 0)
         {
             LeanTween.cancel(gameObject);
             transform.rotation = beforeRotation;

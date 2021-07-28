@@ -6,18 +6,22 @@ public class MapSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> terrains = new List<GameObject>();
     [SerializeField] private int distanceBetweenSquares = 4;
+
+    public GameObject bomb;
     private float maximumPositionX = 36;
     private float minPositionX = 0;
     private float maximumPositionZ = 36;
     private float minPositionZ = 0;
     private Vector3 nextPosition = new Vector3(0, 0, 0);
+    private List<GameObject> listOfBombs;
     public GameObject TerrainPrefab;
     public Color secondColor;
-    public GameObject obstaclePrefab; //fsdf
+    public GameObject obstaclePrefab; 
     private List<GameObject> listTile;
     private List<GameObject> listObstacles = new List<GameObject>();
     private List<Renderer> listOfRend = new List<Renderer>();
     private List<GameObject> listOfObstacleBody = new List<GameObject>();
+    private bool[] isTileTakenBomb;
     private Color orignialTileColor;
     private int indexListe;
     public float obstaclesRotateSpeed = 2f;
@@ -27,29 +31,33 @@ public class MapSpawner : MonoBehaviour
     private float timerSecond = 0f;
     private enum Direction { left, right, down, up, stop };
     Direction direction;
+    private int bombCount = 0;
 
     void Start()
     {
+        isTileTakenBomb = new bool[100];
+        listOfBombs = new List<GameObject>();
         listTile = new List<GameObject>();
         Vector3 position = new Vector3(0, 0, 0);
         indexListe = 0;
         for (int i = 0; i < 10; i++)
         {
-            position.x = 4 * i;
+            position.x = distanceBetweenSquares * i;
             for (int j = 0; j < 10; j++)
             {
-                position.z = 4 * j;
+                position.z = distanceBetweenSquares * j;
                 GameObject tempObj = Instantiate(TerrainPrefab, position, Quaternion.identity);
                 tempObj.gameObject.tag = "Tile";
                 tempObj.transform.parent = gameObject.transform;
                 listTile.Add(tempObj);
                 terrains.Add(tempObj);
                 listOfRend.Add(tempObj.GetComponent<Renderer>());
+                
                 tempObj.SetActive(false);
                 // LeanTween.scale(tempObj, new Vector3(3f, 0.1f, 3f), 2f).setEase(LeanTweenType.easeInSine);
             }
         }
-
+        indexListe = 0;
         for (int i = 0; i < 100; i++)
         {
             StartCoroutine(TweenIng());
@@ -70,14 +78,22 @@ public class MapSpawner : MonoBehaviour
 
         if (timerSecond >= 3f && flag)
         {
-            ObstaclesLiftDown();
-            timer = 0;
+            ObstaclesLiftUPDown();
             timerSecond = 0;
         }
 
-        if (timer >= 6f)
+        if (timer >= 6f&& bombCount<=3)
         {
             flag = true;
+            SetBomb();
+            timer = 0;
+            bombCount++;
+        }
+
+        if (timer >= 6f && bombCount >=3)
+        {
+            RandomizeBombPosition();
+            timer = 0;
         }
 
     }
@@ -200,18 +216,25 @@ public class MapSpawner : MonoBehaviour
     }
     #endregion
 
-    public void ObstaclesLiftDown()
+    public void ObstaclesLiftUPDown()
     {
         int numberOfRandomObstacles = Random.Range(10, 30);
 
         for(int i=0; i< numberOfRandomObstacles; i++)
         {
-            int index = Random.Range(0, listObstacles.Count);
-            //Vector3 pos = liftOfObstacleBody[index].transform.position;
+            int index = 0;
+            bool find = false;
+            while (!find)
+            {
+                index = Random.Range(0, listTile.Count);
+                if (!isTileTakenBomb[index])
+                {
+                    find = true;
+                }
+            }
 
             if (listOfObstacleBody[index].gameObject.activeInHierarchy ==false)
             {
-
                  StartCoroutine(ChangeColorOfRendForSec(index,Color.red));
                  StartCoroutine(ObstacleActiveSwitcher(index, true));
                 // LeanTween.moveY(liftOfObstacleBody[index],-3f, 0.14f);
@@ -221,7 +244,6 @@ public class MapSpawner : MonoBehaviour
             {
                 StartCoroutine(ChangeColorOfRendForSec(index,Color.green));
                 StartCoroutine(ObstacleActiveSwitcher(index, false));
-
                 // LeanTween.moveY(liftOfObstacleBody[index], 3f, 0.14f);
             }
         }
@@ -254,6 +276,47 @@ public class MapSpawner : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
         listOfObstacleBody[index].SetActive(status);
 
+    }
+
+    public void SetBomb()
+    {
+        bool bombIsSet = false;
+
+        while (!bombIsSet)
+        {
+            int index = Random.Range(0, listObstacles.Count);
+            if (!listOfObstacleBody[index].activeInHierarchy)
+            {
+                GameObject tmp= Instantiate(bomb, listTile[index].transform.position+new Vector3(0,1,0), Quaternion.identity);
+                tmp.transform.parent= listTile[index].transform;
+                listOfBombs.Add(tmp);
+                bombIsSet = true;
+                isTileTakenBomb[index] = true;
+            }
+        }
+    }
+
+
+    public void RandomizeBombPosition()
+    {
+        foreach(var x in listOfBombs)
+        {
+            int index = 0;
+            bool find = false;
+            while (!find)
+            {
+                index = Random.Range(0, listTile.Count);
+                if (!isTileTakenBomb[index] && !listOfObstacleBody[index].activeInHierarchy)
+                {
+                    find = true;
+                }
+            }
+
+            x.transform.position = listTile[index].transform.position + new Vector3(0, 1, 0);
+            x.transform.parent = listTile[index].transform;
+            isTileTakenBomb[index] = true;
+
+        }
     }
 
 }
