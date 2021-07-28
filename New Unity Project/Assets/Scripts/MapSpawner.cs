@@ -202,7 +202,7 @@ public class MapSpawner : MonoBehaviour
 
     public void ObstaclesLiftDown()
     {
-        int numberOfRandomObstacles = Random.Range(10, listObstacles.Count);
+        int numberOfRandomObstacles = Random.Range(10, 30);
 
         for(int i=0; i< numberOfRandomObstacles; i++)
         {
