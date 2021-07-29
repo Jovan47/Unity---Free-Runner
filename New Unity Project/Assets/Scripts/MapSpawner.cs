@@ -21,6 +21,7 @@ public class MapSpawner : MonoBehaviour
     private List<GameObject> listObstacles = new List<GameObject>();
     private List<Renderer> listOfRend = new List<Renderer>();
     private List<GameObject> listOfObstacleBody = new List<GameObject>();
+    public GameObject enemy;
     private bool[] isTileTakenBomb;
     private Color orignialTileColor;
     private int indexListe;
@@ -32,7 +33,7 @@ public class MapSpawner : MonoBehaviour
     private enum Direction { left, right, down, up, stop };
     Direction direction;
     private int bombCount = 0;
-
+    private float timerSpawn = 0f;
     void Start()
     {
         isTileTakenBomb = new bool[100];
@@ -92,10 +93,18 @@ public class MapSpawner : MonoBehaviour
 
         if (timer >= 6f && bombCount >=3)
         {
-            RandomizeBombPosition();
+          //  RandomizeBombPosition();
             timer = 0;
         }
 
+        timerSpawn += Time.deltaTime;
+        if (timerSpawn >= 8)
+        {
+            timerSpawn = 0f;
+            int index = findFirstFreeRandomIndex();
+            Instantiate(enemy, listTile[index].transform.position, Quaternion.identity);
+        }
+    
     }
 
     IEnumerator SpawnObstacles()
@@ -289,6 +298,7 @@ public class MapSpawner : MonoBehaviour
             {
                 GameObject tmp= Instantiate(bomb, listTile[index].transform.position+new Vector3(0,1,0), Quaternion.identity);
                 tmp.transform.parent= listTile[index].transform;
+                tmp.gameObject.tag = "Bomb";
                 listOfBombs.Add(tmp);
                 bombIsSet = true;
                 isTileTakenBomb[index] = true;
@@ -317,6 +327,84 @@ public class MapSpawner : MonoBehaviour
             isTileTakenBomb[index] = true;
 
         }
+    }
+
+    public int findFirstFreeRandomIndex()
+    {
+        int index = 0;
+        bool find = false;
+        while (!find)
+        {
+            index = Random.Range(0, listTile.Count);
+            if (!isTileTakenBomb[index] && !listOfObstacleBody[index].activeInHierarchy)
+            {
+                find = true;
+            }
+        }
+        isTileTakenBomb[index] = true;
+
+
+        return index;
+    }
+
+    public void BombExplode(Vector3 position)
+    {
+        int index = FindIndexOfBomb(position);
+
+        for(int i=0; i<100; i++)
+        {
+            Vector3 posTile = listTile[i].transform.position;
+
+            if(posTile.x==position.x && posTile.z == position.z +4f)
+            {
+                listOfObstacleBody[i].SetActive(false);
+
+            }
+            else if(posTile.x == position.x && posTile.z == position.z + -4f)
+            {
+                listOfObstacleBody[i].SetActive(false);
+
+            }
+            else if (posTile.x == position.x+4f && posTile.z == position.z)
+            {
+                listOfObstacleBody[i].SetActive(false);
+
+            }
+            else if (posTile.x == position.x-4f && posTile.z == position.z)
+            {
+                listOfObstacleBody[i].SetActive(false);
+
+            }
+        }
+
+        isTileTakenBomb[index] = false;
+        int newIndexBomb = findFirstFreeRandomIndex();
+        foreach(var x in listOfBombs)
+        {
+            if(x.transform.position.x ==position.x && x.transform.position.z == position.z)
+            {
+                x.transform.position = listTile[newIndexBomb].transform.position+new Vector3(0,1,0);
+                x.transform.parent = listTile[newIndexBomb].transform;
+            }
+        }
+        isTileTakenBomb[newIndexBomb] = true;
+    }
+
+    public int FindIndexOfBomb(Vector3 pos)
+    {
+      int index = 0;
+      for(int i=0; i < listOfBombs.Count; i++)
+      {
+            if(listTile[i].transform.position.x==pos.x && listTile[i].transform.position.z == pos.z)
+            {
+                index = i;
+                Debug.Log("NadjenIndexTILE "+ index +"  "+ listTile[index].transform.position);
+                return index;
+            }
+
+      }
+
+        return index;
     }
 
 }

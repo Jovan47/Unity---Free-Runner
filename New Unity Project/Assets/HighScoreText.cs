@@ -15,7 +15,7 @@ public class HighScoreText : MonoBehaviour
     public float tweenTime=0.9f;
     public float timerSecond=1f;
     private float timerThird = 0.0f;
-
+    private bool flag = false;
     private float highScore = 0.0f;
 
     void Awake()
@@ -49,8 +49,9 @@ public class HighScoreText : MonoBehaviour
             highScore = timer;
         }
 
-        if (PauseMenu.gameOver)
+        if (PauseMenu.gameOver && !flag)
         {
+            flag = true; 
             animator.SetTrigger("GameOver");
             float highS=0;
 
@@ -71,6 +72,13 @@ public class HighScoreText : MonoBehaviour
 
             }
         }
+    }
+
+    public void ResetScore()
+    {
+
+        PlayerPrefs.DeleteKey("HighScore");
+        highScoreText.text = "HighScore: " + 0f.ToString("F2");
     }
 
     public void TweenObject()

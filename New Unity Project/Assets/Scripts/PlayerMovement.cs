@@ -89,6 +89,10 @@ public class PlayerMovement : MonoBehaviour
                     isObst = true;
                     playerMoved = false;
                 }
+                if (x.transform.tag == "Bomb")
+                {
+                    scriptRef.BombExplode(x.transform.position);
+                }
 
                 if (!isObst)
                 {

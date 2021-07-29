@@ -69,11 +69,6 @@ public class EnemyMovement : MonoBehaviour
             }
 
 
-            if (timerSpawn >= 10)
-            {
-                Instantiate(gameObject, transform.position + new Vector3(-4, 0, -4), Quaternion.identity);
-                timerSpawn = 0;
-            }
 
         }
 
@@ -143,25 +138,25 @@ public class EnemyMovement : MonoBehaviour
         if (goLeft)
         {
             goLeft = false;
-            LeanTween.move(gameObject, left, 0.3f);
+            LeanTween.move(gameObject, left, 0.25f);
             animator.SetTrigger("hoped");
         }
         else if (goRight)
         {
             goRight = false;
-            LeanTween.move(gameObject, right, 0.3f);
+            LeanTween.move(gameObject, right, 0.25f);
             animator.SetTrigger("hoped");
         }
         else if (goUp)
         {
             goUp = false;
-            LeanTween.move(gameObject, up, 0.3f);
+            LeanTween.move(gameObject, up, 0.25f);
             animator.SetTrigger("hoped");
         }
         else if (goDown)
         {
             goDown = false;
-            LeanTween.move(gameObject, down, 0.3f);
+            LeanTween.move(gameObject, down, 0.25f);
             animator.SetTrigger("hoped");
         }
     }
