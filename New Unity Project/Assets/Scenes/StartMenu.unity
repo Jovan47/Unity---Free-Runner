@@ -484,6 +484,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 8625597986800011221, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597986904441633, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -113
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597987438665312, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -114
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597987590134188, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 117
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597987694501511, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597987698231198, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 108
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
 --- !u!1 &670380680

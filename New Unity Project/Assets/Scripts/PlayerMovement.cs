@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     Direction direction;
     void Start()
     {
+        Application.targetFrameRate = 60;
         scriptRef = MapSpawner.GetComponent<MapSpawner>();
         currentDiretcion = new Vector3(0, 0, 0);
         moved = false;
@@ -30,7 +31,8 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
     void Update()
-    {
+    {  
+
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("w") && !isHoping && !PauseMenu.GameIsPaused)
         {
             nextPlace = transform.position + new Vector3(offSetPlayerMove, 0, 0);

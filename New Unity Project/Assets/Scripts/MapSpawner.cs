@@ -296,7 +296,7 @@ public class MapSpawner : MonoBehaviour
         while (!bombIsSet)
         {
             int index = Random.Range(0, listObstacles.Count);
-            if (!listOfObstacleBody[index].activeInHierarchy)
+            if (!listOfObstacleBody[index].activeInHierarchy && !isTileTakenBomb[index])
             {
                 GameObject tmp= Instantiate(bomb, listTile[index].transform.position+new Vector3(0,1,0), Quaternion.identity);
                 tmp.transform.parent= listTile[index].transform;

@@ -991,6 +991,7 @@ MonoBehaviour:
   timer: 1
   array:
   - {fileID: 567522321}
+  - {fileID: 50150795}
 --- !u!1 &247232366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2585,6 +2586,7 @@ MonoBehaviour:
   terrains:
   - {fileID: 271443290452296639, guid: 4f10a00e362c6664d87ac676e6e1fbdc, type: 3}
   distanceBetweenSquares: 4
+  ExplodeEffect: {fileID: 2416885086999206832, guid: a0f9e00e268cd7942a42d99ab1f602fb, type: 3}
   bomb: {fileID: 4090368757675264104, guid: 92f7ac2195893ff4f83a6fd70ea7ec28, type: 3}
   TerrainPrefab: {fileID: 803298089991814135, guid: 66eeb1d97ecf90844990a1ab0e60be60, type: 3}
   secondColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4622,6 +4624,18 @@ PrefabInstance:
     - target: {fileID: 1434731934406912524, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
       propertyPath: m_Name
       value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912524, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597986800011221, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625597987694501511, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
