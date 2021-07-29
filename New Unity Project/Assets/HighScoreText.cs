@@ -9,6 +9,7 @@ public class HighScoreText : MonoBehaviour
     public TextMeshProUGUI Score;
     public TextMeshProUGUI highScoreText;
 
+    public  GameObject highScoreGameObj;
     public Animator animator;
     public float timer = 0.0f;
     public GameObject obj;
@@ -51,6 +52,8 @@ public class HighScoreText : MonoBehaviour
 
         if (PauseMenu.gameOver && !flag)
         {
+            TweenIn();
+
             flag = true; 
             animator.SetTrigger("GameOver");
             float highS=0;
@@ -89,4 +92,15 @@ public class HighScoreText : MonoBehaviour
             LeanTween.scale(obj, Vector3.one * 1.1f, tweenTime).setEaseShake();
         
     }
+
+
+    public void TweenIn()
+    {    
+        
+        LeanTween.scale(highScoreGameObj, Vector3.one/100, 0f);
+
+        LeanTween.scale(highScoreGameObj, Vector3.one, 2f).setEaseInBounce();
+
+    }
+
 }

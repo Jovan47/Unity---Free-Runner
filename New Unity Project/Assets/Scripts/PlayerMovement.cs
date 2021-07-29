@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     Direction direction;
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 40;
         scriptRef = MapSpawner.GetComponent<MapSpawner>();
         currentDiretcion = new Vector3(0, 0, 0);
         moved = false;

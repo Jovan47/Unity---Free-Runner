@@ -513,7 +513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -943}
+  m_AnchoredPosition: {x: 0, y: -1327}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &52331674
@@ -970,6 +970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Score: {fileID: 508539517}
   highScoreText: {fileID: 50150798}
+  highScoreGameObj: {fileID: 52331672}
   animator: {fileID: 52331676}
   timer: 0
   obj: {fileID: 567522321}
@@ -1387,7 +1388,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 887.9396, y: 514.7343}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &423028674
 MonoBehaviour:
