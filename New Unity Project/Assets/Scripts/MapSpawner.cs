@@ -7,6 +7,8 @@ public class MapSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> terrains = new List<GameObject>();
     [SerializeField] private int distanceBetweenSquares = 4;
 
+
+    public GameObject ExplodeEffect;
     public GameObject bomb;
     private float maximumPositionX = 36;
     private float minPositionX = 0;
@@ -355,24 +357,32 @@ public class MapSpawner : MonoBehaviour
         {
             Vector3 posTile = listTile[i].transform.position;
 
-            if(posTile.x==position.x && posTile.z == position.z +4f)
+            if(posTile.x==position.x && posTile.z == position.z +4f && listOfObstacleBody[i].activeInHierarchy)
             {
                 listOfObstacleBody[i].SetActive(false);
+                Instantiate(ExplodeEffect, listTile[i].transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+
+
 
             }
-            else if(posTile.x == position.x && posTile.z == position.z + -4f)
+            else if(posTile.x == position.x && posTile.z == position.z + -4f && listOfObstacleBody[i].activeInHierarchy)
             {
                 listOfObstacleBody[i].SetActive(false);
+                Instantiate(ExplodeEffect, listTile[i].transform.position + new Vector3(0, 2, 0), Quaternion.identity);
 
             }
-            else if (posTile.x == position.x+4f && posTile.z == position.z)
+            else if (posTile.x == position.x+4f && posTile.z == position.z && listOfObstacleBody[i].activeInHierarchy)
             {
                 listOfObstacleBody[i].SetActive(false);
+                Instantiate(ExplodeEffect, listTile[i].transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+
 
             }
-            else if (posTile.x == position.x-4f && posTile.z == position.z)
+            else if (posTile.x == position.x-4f && posTile.z == position.z && listOfObstacleBody[i].activeInHierarchy)
             {
                 listOfObstacleBody[i].SetActive(false);
+                Instantiate(ExplodeEffect, listTile[i].transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+
 
             }
         }

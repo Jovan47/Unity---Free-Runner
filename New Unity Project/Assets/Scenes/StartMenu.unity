@@ -358,6 +358,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223129267}
   m_CullTransparentMesh: 1
+--- !u!95 &249091013 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8625597986454629747, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+  m_PrefabInstance: {fileID: 367273243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &262471938
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,8 +427,65 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &367273243
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912523, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434731934406912524, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+      propertyPath: m_Name
+      value: LevelLoader
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
 --- !u!1 &670380680
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +1054,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 676242622684531243, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 676242622684531243, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1038,7 +1100,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelLoader Circle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 676242622684531244, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 676242622684531242, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
 --- !u!1 &824196632
 GameObject:
@@ -1331,7 +1398,7 @@ RectTransform:
   - {fileID: 8922551}
   - {fileID: 1063385403}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2570,7 +2637,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2092290546}
+      - m_Target: {fileID: 1946293269}
         m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
         m_MethodName: LoadNextScene
         m_Mode: 1
@@ -2741,8 +2808,27 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1946293267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1434731934406912524, guid: 153e6336483a7ee41845d7e5fbc12094, type: 3}
+  m_PrefabInstance: {fileID: 367273243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1946293269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946293267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49b1490271e7e14bbdae25156215142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 249091013}
+  transitionTime: 1
 --- !u!1 &1986770153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2952,14 +3038,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048090701}
   m_CullTransparentMesh: 1
---- !u!114 &2092290546 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 676242622684531242, guid: e7c4846bf5a2c834e9c2348c865be49b, type: 3}
-  m_PrefabInstance: {fileID: 806413191}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f49b1490271e7e14bbdae25156215142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
