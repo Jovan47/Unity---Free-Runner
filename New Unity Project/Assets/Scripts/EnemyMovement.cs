@@ -121,7 +121,7 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
         if (distanceDown == minDistance)
-        {
+        {  //alsdfjkasldkghwwt
             minDistance = distanceDown;
             minPath = down;
             goDown = true;
